@@ -17,15 +17,28 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
         self.mongo_database = readresource.Readresource.mongodatabase(self)
         self.mongo_collection = readresource.Readresource.mongocollection(self)
         self.mongo_id = int(readresource.Readresource.mongoid(self))
-
-    def bossurl(self):
         self.conn_mongo = self.connectmongo(self.mongo_ip, self.mongo_prot)
         self.db = self.conn_mongo[self.mongo_database]
         self.collection = self.db[self.mongo_collection]
+
+    def bossurl(self):
         # 查询要登录的boss的地址
         boss_url = self.collection.find_one({'_id': self.mongo_id}, {"bossurl": 1, "_id": self.mongo_id})['bossurl']
         self.logindatalog.info('Boss url is : --->%s<---' % str(boss_url))
         return boss_url
+
+    def operation_login_username(self):
+        # 查询要登录的运维的帐号
+        operation_login_username = self.collection.find_one(
+            {'_id': self.mongo_id}, {"operation_login_username": 1, "_id": self.mongo_id})['operation_login_username']
+        self.logindatalog.info('operation login username is : --->%s<---' % str(operation_login_username))
+        return operation_login_username
+
+    def salesman_login_username(self):
+        # 查询要登录的boss的地址
+        salesman_login_username = self.collection.find_one({'_id': self.mongo_id}, {"salesman_login_username": 1, "_id": self.mongo_id})['salesman_login_username']
+        self.logindatalog.info('salesman login username is : --->%s<---' % str(salesman_login_username))
+        return salesman_login_username
 
 
 if __name__ == '__main__':
