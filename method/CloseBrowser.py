@@ -10,7 +10,7 @@ class CloseBrowser(object):
         pass
 
     @staticmethod
-    def quitboss(driver, topbarstatus_path, exitsystem_path, verificationelement, topbar):
+    def quitboss(driver, topbarstatus_path, topbar, exitsystem_path, verificationelement):
         js_script = 'return %s' % topbarstatus_path
         # 获取上方状态栏的展开状态
         topbar_status = driver.execute_script(js_script)
