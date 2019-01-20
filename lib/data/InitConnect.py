@@ -12,8 +12,8 @@ class ConnectSql(AutoTestLog):
         self.connectlog.addHandler(self.logscr)
 
     def connectmongo(self, mongoip, mongoprot):
-        self.connectlog.debug('MongodbIP is %s' % str(mongoip))
-        self.connectlog.debug('Mongodbprot is %s' % str(mongoprot))
+        self.connectlog.info('MongodbIP is %s' % str(mongoip))
+        self.connectlog.info('Mongodbprot is %s' % str(mongoprot))
         # 返回MongoDB连接句柄
         conn = MongoClient(mongoip, int(mongoprot))
         return conn

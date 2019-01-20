@@ -9,7 +9,7 @@ class Readresource(object):
     def __init__(self):
         # 读取ini配置文件
         self.conf = configparser.ConfigParser()
-        self.configfile = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(sys.argv[0]))),
+        self.configfile = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
                                        'config/resource.ini')
         self.conf.read(self.configfile)
 

@@ -1,23 +1,23 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
-from data import initconnect, readresource
+from data import InitConnect, ReadResource
 import traceback
 
 
-class LoginData(initconnect.ConnectSql, readresource.Readresource):
+class LoginData(InitConnect.ConnectSql, ReadResource.Readresource):
     def __init__(self):
-        initconnect.ConnectSql.__init__(self)
-        readresource.Readresource.__init__(self)
+        InitConnect.ConnectSql.__init__(self)
+        ReadResource.Readresource.__init__(self)
         self.conn_mongo = None
         self.db = None
         self.collection = None
         self.logindatalog = self.logging.getLogger('LoginData')
         self.logindatalog.addHandler(self.logscr)
-        self.mongo_ip = readresource.Readresource.mongoip(self)
-        self.mongo_prot = readresource.Readresource.mongoport(self)
-        self.mongo_database = readresource.Readresource.mongodatabase(self)
-        self.mongo_collection = readresource.Readresource.mongocollection(self)
-        self.mongo_id = int(readresource.Readresource.mongoid(self))
+        self.mongo_ip = ReadResource.Readresource.mongoip(self)
+        self.mongo_prot = ReadResource.Readresource.mongoport(self)
+        self.mongo_database = ReadResource.Readresource.mongodatabase(self)
+        self.mongo_collection = ReadResource.Readresource.mongocollection(self)
+        self.mongo_id = int(ReadResource.Readresource.mongoid(self))
         self.conn_mongo = self.connectmongo(self.mongo_ip, self.mongo_prot)
         self.db = self.conn_mongo[self.mongo_database]
         self.collection = self.db[self.mongo_collection]
@@ -28,7 +28,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
         try:
             boss_url = self.collection.find_one({'_id': self.mongo_id}, {"bossurl": 1, "_id": self.mongo_id})['bossurl']
             self.logindatalog.info('Boss url is : --->%s<---' % str(boss_url))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return boss_url
@@ -41,7 +41,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"operation_login_username": 1,
                                          "_id": self.mongo_id})['operation_login_username']
             self.logindatalog.info('operation login username is : --->%s<---' % str(operation_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return operation_login_username
@@ -53,7 +53,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             salesman_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"salesman_login_username": 1, "_id": self.mongo_id})['salesman_login_username']
             self.logindatalog.info('salesman login username is : --->%s<---' % str(salesman_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username
@@ -66,7 +66,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"salesman_login_username2": 1,
                                          "_id": self.mongo_id})['salesman_login_username2']
             self.logindatalog.info('salesman login username2 is : --->%s<---' % str(salesman_login_username2))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username2
@@ -79,7 +79,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"salesman_login_username3": 1,
                                          "_id": self.mongo_id})['salesman_login_username3']
             self.logindatalog.info('salesman login username3 is : --->%s<---' % str(salesman_login_username3))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username3
@@ -93,7 +93,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                                          "_id": self.mongo_id})['number_administrator_login_username']
             self.logindatalog.info('number administrator login username is : --->%s<---' %
                                    str(number_administrator_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return number_administrator_login_username
@@ -105,7 +105,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             presale_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"presale_login_username": 1, "_id": self.mongo_id})['presale_login_username']
             self.logindatalog.info('presale login username is : --->%s<---' % str(presale_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return presale_login_username
@@ -118,7 +118,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"return_visit_login_username": 1,
                                          "_id": self.mongo_id})['return_visit_login_username']
             self.logindatalog.info('return visit login username is : --->%s<---' % str(return_visit_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return return_visit_login_username
@@ -130,7 +130,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             charging_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"charging_login_username": 1, "_id": self.mongo_id})['charging_login_username']
             self.logindatalog.info('charging login username is : --->%s<---' % str(charging_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return charging_login_username
@@ -143,7 +143,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"renewcontract_login_username": 1,
                                          "_id": self.mongo_id})['renewcontract_login_username']
             self.logindatalog.info('renewcontract login username is : --->%s<---' % str(renewcontract_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return renewcontract_login_username
@@ -156,7 +156,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"productaudit_login_username": 1,
                                          "_id": self.mongo_id})['productaudit_login_username']
             self.logindatalog.info('productaudit login username is : --->%s<---' % str(productaudit_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return productaudit_login_username
@@ -169,7 +169,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
                 {'_id': self.mongo_id}, {"productopening_login_username": 1,
                                          "_id": self.mongo_id})['productopening_login_username']
             self.logindatalog.info('productopening login username is : --->%s<---' % str(productopening_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return productopening_login_username
@@ -181,7 +181,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             finance_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"finance_login_username": 1, "_id": self.mongo_id})['finance_login_username']
             self.logindatalog.info('finance login username is : --->%s<---' % str(finance_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return finance_login_username
@@ -193,7 +193,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             finance_login_username2 = self.collection.find_one(
                 {'_id': self.mongo_id}, {"finance_login_username2": 1, "_id": self.mongo_id})['finance_login_username2']
             self.logindatalog.info('finance login username2 is : --->%s<---' % str(finance_login_username2))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return finance_login_username2
@@ -205,7 +205,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             ftersale_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"ftersale_login_username": 1, "_id": self.mongo_id})['ftersale_login_username']
             self.logindatalog.info('ftersale login username is : --->%s<---' % str(ftersale_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return ftersale_login_username
@@ -217,7 +217,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             zfw400_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"zfw400_login_username": 1, "_id": self.mongo_id})['zfw400_login_username']
             self.logindatalog.info('zfw400 login username is : --->%s<---' % str(zfw400_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username)
@@ -229,7 +229,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             zfw400_login_username2 = self.collection.find_one(
                 {'_id': self.mongo_id}, {"zfw400_login_username2": 1, "_id": self.mongo_id})['zfw400_login_username2']
             self.logindatalog.info('zfw400 login username2 is : --->%s<---' % str(zfw400_login_username2))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username2)
@@ -241,7 +241,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             zfw400_login_username3 = self.collection.find_one(
                 {'_id': self.mongo_id}, {"zfw400_login_username3": 1, "_id": self.mongo_id})['zfw400_login_username3']
             self.logindatalog.info('zfw400 login username3 is : --->%s<---' % str(zfw400_login_username3))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username3)
@@ -253,7 +253,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             zfwln_login_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"zfwln_login_username": 1, "_id": self.mongo_id})['zfwln_login_username']
             self.logindatalog.info('zfwln login username is : --->%s<---' % str(zfwln_login_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfwln_login_username)
@@ -265,7 +265,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             zfwln_login_password = self.collection.find_one(
                 {'_id': self.mongo_id}, {"zfwln_login_password": 1, "_id": self.mongo_id})['zfwln_login_password']
             self.logindatalog.info('zfwln login password is : --->%s<---' % str(zfwln_login_password))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfwln_login_password)
@@ -277,7 +277,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             login_password = self.collection.find_one(
                 {'_id': self.mongo_id}, {"login_password": 1, "_id": self.mongo_id})['login_password']
             self.logindatalog.info('login password is : --->%s<---' % str(login_password))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(login_password)
@@ -289,7 +289,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             verification_code = self.collection.find_one(
                 {'_id': self.mongo_id}, {"verification_code": 1, "_id": self.mongo_id})['verification_code']
             self.logindatalog.info('verification code is : --->%s<---' % str(verification_code))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(verification_code)
@@ -301,7 +301,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             database_ip = self.collection.find_one(
                 {'_id': self.mongo_id}, {"database_ip": 1, "_id": self.mongo_id})['database_ip']
             self.logindatalog.info('database ip is : --->%s<---' % str(database_ip))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_ip)
@@ -313,7 +313,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             database_username = self.collection.find_one(
                 {'_id': self.mongo_id}, {"database_username": 1, "_id": self.mongo_id})['database_username']
             self.logindatalog.info('database username is : --->%s<---' % str(database_username))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_username)
@@ -325,7 +325,7 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             database_password = self.collection.find_one(
                 {'_id': self.mongo_id}, {"database_password": 1, "_id": self.mongo_id})['database_password']
             self.logindatalog.info('database password is : --->%s<---' % str(database_password))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_password)
@@ -337,36 +337,36 @@ class LoginData(initconnect.ConnectSql, readresource.Readresource):
             database_port = self.collection.find_one(
                 {'_id': self.mongo_id}, {"database_port": 1, "_id": self.mongo_id})['database_port']
             self.logindatalog.info('database port is : --->%s<---' % str(database_port))
-        except KeyError:
+        except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_port)
 
 
-if __name__ == '__main__':
-    a = LoginData()
-    print(a.bossurl())
-    print(a.operation_login_username())
-    print(a.salesman_login_username())
-    print(a.salesman_login_username2())
-    print(a.salesman_login_username3())
-    print(a.number_administrator_login_username())
-    print(a.presale_login_username())
-    print(a.return_visit_login_username())
-    print(a.charging_login_username())
-    print(a.renewcontract_login_username())
-    print(a.productaudit_login_username())
-    print(a.productopening_login_username())
-    print(a.finance_login_username())
-    print(a.finance_login_username2())
-    print(a.ftersale_login_username())
-    print(a.zfw400_login_username())
-    print(a.zfw400_login_username2())
-    print(a.zfw400_login_username3())
-    print(a.zfwln_login_username())
-    print(a.zfwln_login_password())
-    print(a.verification_code())
-    print(a.database_ip())
-    print(a.database_username())
-    print(a.database_password())
-    print(a.database_port())
+# if __name__ == '__main__':
+#     a = LoginData()
+#     print(a.bossurl())
+    # print(a.operation_login_username())
+    # print(a.salesman_login_username())
+    # print(a.salesman_login_username2())
+    # print(a.salesman_login_username3())
+    # print(a.number_administrator_login_username())
+    # print(a.presale_login_username())
+    # print(a.return_visit_login_username())
+    # print(a.charging_login_username())
+    # print(a.renewcontract_login_username())
+    # print(a.productaudit_login_username())
+    # print(a.productopening_login_username())
+    # print(a.finance_login_username())
+    # print(a.finance_login_username2())
+    # print(a.ftersale_login_username())
+    # print(a.zfw400_login_username())
+    # print(a.zfw400_login_username2())
+    # print(a.zfw400_login_username3())
+    # print(a.zfwln_login_username())
+    # print(a.zfwln_login_password())
+    # print(a.verification_code())
+    # print(a.database_ip())
+    # print(a.database_username())
+    # print(a.database_password())
+    # print(a.database_port())
