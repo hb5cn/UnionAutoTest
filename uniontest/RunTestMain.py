@@ -8,6 +8,7 @@ class RunTestMain(unittest.TestCase):
     @staticmethod
     def suiteall():
         suite = unittest.TestSuite()
+        # 测试套添加内容
         suite.addTest(TestLoginPage('test_normallogin'))
         return suite
 
