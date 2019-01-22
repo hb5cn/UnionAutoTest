@@ -5,9 +5,9 @@ import traceback
 
 
 class LoginData(InitConnect.ConnectSql, ReadResource.Readresource):
-    def __init__(self):
+    def __init__(self, section='mongodb'):
         InitConnect.ConnectSql.__init__(self)
-        ReadResource.Readresource.__init__(self)
+        ReadResource.Readresource.__init__(self, section)
         self.conn_mongo = None
         self.db = None
         self.collection = None
