@@ -1,6 +1,7 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
 import unittest
+from lib.report import HTMLTestRunner
 from data import InitConnect, ReadResource
 from uniontest.Public.LoginPage import TestLoginPage
 
@@ -17,6 +18,7 @@ class RunTestMain(unittest.TestCase, ReadResource.Readresource, InitConnect.Conn
         self.conn_mongo = self.connectmongo(self.mongo_ip, self.mongo_prot)
         self.db = self.conn_mongo[self.mongo_database]
         self.collection = self.db[self.mongo_collection]
+        self.runmanlog = self.logging.getLogger('RunMain')
 
     def suiteall(self):
         caselist = []
@@ -27,8 +29,18 @@ class RunTestMain(unittest.TestCase, ReadResource.Readresource, InitConnect.Conn
         suite.addTests(caselist)
         return suite
 
+    def main(self):
+        # runner = unittest.TextTestRunner()
+        # result = runner.run(self.suiteall())
+        # self.runmanlog.error(result)
+        report_repash = 'a.html'
+        fp = open(report_repash, "wb")  # 保存报告文件
+        print(fp)
+        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告')
+        runner.run(self.suiteall())  # 执行用例
+        fp.close()
+
 
 if __name__ == '__main__':
-    runner = unittest.TextTestRunner()
-    a = RunTestMain().suiteall()
-    result = runner.run(a)
+    a = RunTestMain()
+    a.main()
