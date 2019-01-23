@@ -13,6 +13,7 @@ from lib.screenshots.ScreenShots import Screen
 
 
 class TestLoginPage(unittest.TestCase):
+    driver = None
 
     @classmethod
     def setUpClass(cls):
@@ -21,6 +22,8 @@ class TestLoginPage(unittest.TestCase):
         # 创建日志句柄
         cls.testloginlog = cls.login_page.logging.getLogger('TestLoginBoss')
         cls.testloginlog.addHandler(cls.login_page.logscr)
+        global driver
+        driver = cls.login_page.loginbrowser
 
     @classmethod
     def tearDownClass(cls):
@@ -37,7 +40,7 @@ class TestLoginPage(unittest.TestCase):
         #     cls().login_page.loginbrowser.save_screenshot(png_path)
         cls().login_page.loginbrowser.quit()
 
-    @Screen(cls.login_page.loginbrowser, )
+    @Screen(driver, 'test_normallogin')
     def test_normallogin(self):
         """
         用户正常登录
@@ -50,6 +53,7 @@ class TestLoginPage(unittest.TestCase):
         CloseBrowser.quitboss(self.login_page.loginbrowser, self.login_page.topbarstatus, self.login_page.topbar,
                               self.login_page.exitsystem, self.login_page.username)
 
+    @Screen(driver, 'test_enterlogin')
     def test_enterlogin(self):
         """
         用户按回车键正常登录
@@ -75,6 +79,7 @@ class TestLoginPage(unittest.TestCase):
         CloseBrowser.quitboss(self.login_page.loginbrowser, self.login_page.topbarstatus, self.login_page.topbar,
                               self.login_page.exitsystem, self.login_page.username)
 
+    @Screen(driver, 'test_reset')
     def test_reset(self):
         """
         登录页面重置按钮正常清除
@@ -94,6 +99,7 @@ class TestLoginPage(unittest.TestCase):
         username_text = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.username).text
         unittest.TestCase.assertEqual(self, username_text, "")
 
+    @Screen(driver, 'test_verificationcode_picture')
     def test_verificationcode_picture(self):
         """
         登录页面验证码点击后正常更换图片
@@ -110,6 +116,7 @@ class TestLoginPage(unittest.TestCase):
         # 判断两个地址不相同
         unittest.TestCase.assertNotEqual(self, old_src, new_src)
 
+    @Screen(driver, 'test_nonexistentuser')
     def test_nonexistentuser(self):
         """
         不存在的用户名无法登录
@@ -130,6 +137,7 @@ class TestLoginPage(unittest.TestCase):
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe).text
         unittest.TestCase.assertEqual(self, msg, '用户名或密码错误，请重新输入。')
 
+    @Screen(driver, 'test_wrongpassword')
     def test_wrongpassword(self):
         """
         错误的密码无法登录
@@ -150,6 +158,7 @@ class TestLoginPage(unittest.TestCase):
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe2).text
         unittest.TestCase.assertEqual(self, msg, '密码不正确')
 
+    @Screen(driver, 'test_required')
     def test_required(self):
         """
         必填项验证
