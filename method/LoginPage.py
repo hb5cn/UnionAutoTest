@@ -38,7 +38,7 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         self.loginbrowser.find_element_by_xpath(self.confirm).click()
         self.loginlog.info('Begin Login Boss')
         # 等待刷新按钮出现
-        WebDriverWait(self.loginbrowser, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, self.refresh)))
+        WebDriverWait(self.loginbrowser, 60, 0.5).until(ec.presence_of_element_located((By.XPATH, self.refresh)))
         # 点击两次刷新按钮
         self.loginbrowser.find_element_by_xpath(self.refresh).click()
         self.loginbrowser.find_element_by_xpath(self.refresh).click()

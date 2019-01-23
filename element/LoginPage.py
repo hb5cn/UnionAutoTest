@@ -12,3 +12,5 @@ class LoginPage(object):
         self.reset = '//a[@onclick="login_clear();"]'
         self.wechat = '//span[text()="微信登录"]'
         self.tips = '//div[contains(@class, "tooltip tooltip-right")]/div[1]'
+        self.msgframe = '//div[contains(@class, "messager-body")]/div[2]'
+        self.msgframe2 = '//div[contains(@class, "messager-body")]/div[1]'

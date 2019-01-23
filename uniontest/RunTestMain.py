@@ -1,13 +1,22 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
 import unittest
-from lib.data.LoginData import LoginData
+from data import InitConnect, ReadResource
 from uniontest.Public.LoginPage import TestLoginPage
 
 
-class RunTestMain(unittest.TestCase, LoginData):
+class RunTestMain(unittest.TestCase, ReadResource.Readresource, InitConnect.ConnectSql):
     def __init__(self):
-        LoginData.__init__(self, 'testcase')
+        InitConnect.ConnectSql.__init__(self)
+        ReadResource.Readresource.__init__(self, 'testcase')
+        self.mongo_ip = ReadResource.Readresource.mongoip(self)
+        self.mongo_prot = ReadResource.Readresource.mongoport(self)
+        self.mongo_database = ReadResource.Readresource.mongodatabase(self)
+        self.mongo_collection = ReadResource.Readresource.mongocollection(self)
+        self.mongo_id = int(ReadResource.Readresource.mongoid(self))
+        self.conn_mongo = self.connectmongo(self.mongo_ip, self.mongo_prot)
+        self.db = self.conn_mongo[self.mongo_database]
+        self.collection = self.db[self.mongo_collection]
 
     def suiteall(self):
         caselist = []
