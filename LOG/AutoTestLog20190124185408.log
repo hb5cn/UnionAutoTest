@@ -1,0 +1,30 @@
+2019-01-24-Thu 18:54:08 ConnectSql 17 INFO MongodbIP is 106.13.67.152
+2019-01-24-Thu 18:54:08 ConnectSql 18 INFO Mongodbprot is 27017
+2019-01-24-Thu 18:54:14 ConnectSql 17 INFO MongodbIP is 106.13.67.152
+2019-01-24-Thu 18:54:14 ConnectSql 18 INFO Mongodbprot is 27017
+2019-01-24-Thu 18:54:14 LoginData 23 INFO Boss url is : --->http://101.200.123.227:8081/xtboss<---
+2019-01-24-Thu 18:54:18 TestLoginBoss 50 INFO TestCase-->>用户正常登录
+2019-01-24-Thu 18:54:18 LoginData 36 INFO operation login username is : --->zhangnan_01<---
+2019-01-24-Thu 18:54:19 LoginData 272 INFO login password is : --->Zha1Ngm4m%$#1<---
+2019-01-24-Thu 18:54:19 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:19 LoginBoss 39 INFO Begin Login Boss
+2019-01-24-Thu 18:54:30 TestLoginBoss 62 INFO TestCase-->>用户按回车键正常登录
+2019-01-24-Thu 18:54:30 LoginData 36 INFO operation login username is : --->zhangnan_01<---
+2019-01-24-Thu 18:54:30 LoginData 272 INFO login password is : --->Zha1Ngm4m%$#1<---
+2019-01-24-Thu 18:54:31 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:31 LoginBoss 74 INFO Begin Login Boss
+2019-01-24-Thu 18:54:32 TestLoginBoss 88 INFO TestCase-->>登录页面重置按钮正常清除
+2019-01-24-Thu 18:54:32 LoginData 36 INFO operation login username is : --->zhangnan_01<---
+2019-01-24-Thu 18:54:32 LoginData 272 INFO login password is : --->Zha1Ngm4m%$#1<---
+2019-01-24-Thu 18:54:32 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:32 TestLoginBoss 106 INFO TestCase-->>登录页面验证码点击后正常更换图片
+2019-01-24-Thu 18:54:33 TestLoginBoss 122 INFO TestCase-->>不存在的用户名无法登录
+2019-01-24-Thu 18:54:33 LoginData 272 INFO login password is : --->Zha1Ngm4m%$#1<---
+2019-01-24-Thu 18:54:33 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:34 TestLoginBoss 142 INFO TestCase-->>错误的密码无法登录
+2019-01-24-Thu 18:54:34 LoginData 36 INFO operation login username is : --->zhangnan_01<---
+2019-01-24-Thu 18:54:34 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:34 TestLoginBoss 162 INFO TestCase-->>必填项验证
+2019-01-24-Thu 18:54:34 LoginData 272 INFO login password is : --->Zha1Ngm4m%$#1<---
+2019-01-24-Thu 18:54:34 LoginData 284 INFO verification code is : --->qcqc<---
+2019-01-24-Thu 18:54:35 TestLoginBoss 32 INFO close browser now

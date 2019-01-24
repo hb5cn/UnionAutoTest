@@ -1,7 +1,6 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
 import os
-import time
 import unittest
 from method.LoginPage import LoginPage
 from method.CloseBrowser import CloseBrowser
@@ -13,12 +12,9 @@ from selenium.webdriver.common.keys import Keys
 
 class TestLoginPage(unittest.TestCase):
     def tearDown(self):
-        nowtime = time.strftime("%Y%m%d%H%M%S")
         png_floder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-                                       'ScreenShots', nowtime)
-        if not os.path.exists(png_floder_path):
-            os.mkdir(png_floder_path)
-        png_path = os.path.join(png_floder_path, '%s_%s.png' % (self._testMethodName, nowtime))
+                                       'ScreenShots', 'screennow')
+        png_path = os.path.join(png_floder_path, '%s.png' % self._testMethodName)
         self.login_page.loginbrowser.get_screenshot_as_file(png_path)
 
     @classmethod

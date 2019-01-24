@@ -821,9 +821,11 @@ class HTMLTestRunner(TemplateMixin):
             try:
                 image_url = "http://192.168.99.105/contractreport/screenshot/" + \
                             time.strftime("%Y-%m-%d", time.localtime(time.time())) + "/" + shot_name.group(1) + ".png"
+                print(image_url)
             except TypeError:
                 image_url = "http://192.168.99.105/contractreport/screenshot/" + \
                             time.strftime("%Y-%m-%d", time.localtime(time.time()))
+                print(image_url)
 
         else:
             hidde_status = '''hidden="hidden"'''

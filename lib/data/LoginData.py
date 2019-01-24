@@ -1,26 +1,19 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
-from data import InitConnect, ReadResource
+from data.InitConnect import ConnectSql
+
 import traceback
 
 
-class LoginData(InitConnect.ConnectSql, ReadResource.Readresource):
-    def __init__(self, section='mongodb'):
-        InitConnect.ConnectSql.__init__(self)
-        ReadResource.Readresource.__init__(self, section)
-        self.conn_mongo = None
-        self.db = None
-        self.collection = None
+class LoginData(ConnectSql):
+    def __init__(self):
+        ConnectSql.__init__(self)
         self.logindatalog = self.logging.getLogger('LoginData')
         self.logindatalog.addHandler(self.logscr)
-        self.mongo_ip = ReadResource.Readresource.mongoip(self)
-        self.mongo_prot = ReadResource.Readresource.mongoport(self)
-        self.mongo_database = ReadResource.Readresource.mongodatabase(self)
-        self.mongo_collection = ReadResource.Readresource.mongocollection(self)
-        self.mongo_id = int(ReadResource.Readresource.mongoid(self))
-        self.conn_mongo = self.connectmongo(self.mongo_ip, self.mongo_prot)
-        self.db = self.conn_mongo[self.mongo_database]
-        self.collection = self.db[self.mongo_collection]
+        self.conn_mongo = self.connectmongo()
+        self.db = self.conn_mongo['autotest']
+        self.collection = self.db['connectinfo']
+        self.mongo_id = 0
 
     def bossurl(self):
         # 查询要登录的boss的地址
