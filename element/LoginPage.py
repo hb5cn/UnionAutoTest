@@ -14,3 +14,4 @@ class LoginPage(object):
         self.tips = '//div[contains(@class, "tooltip tooltip-right")]/div[1]'
         self.msgframe = '//div[contains(@class, "messager-body")]/div[2]'
         self.msgframe2 = '//div[contains(@class, "messager-body")]/div[1]'
+        self.msgframebutton = '//div[contains(@class, "messager-body")]/div[last()]/a'

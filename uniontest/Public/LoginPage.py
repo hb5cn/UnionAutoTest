@@ -133,6 +133,7 @@ class TestLoginPage(unittest.TestCase):
         # 获取弹框的内容
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe).text
         unittest.TestCase.assertEqual(self, msg, '用户名或密码错误，请重新输入。')
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframebutton).click()
 
     def test_wrongpassword(self):
         """
@@ -153,6 +154,7 @@ class TestLoginPage(unittest.TestCase):
         # 获取弹框的内容
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe2).text
         unittest.TestCase.assertEqual(self, msg, '密码不正确')
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframebutton).click()
 
     def test_required(self):
         """

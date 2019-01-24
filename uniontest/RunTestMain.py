@@ -13,14 +13,17 @@ from uniontest.Public.LoginPage import TestLoginPage
 class RunTestMain(unittest.TestCase, ConnectSql):
     def __init__(self):
         ConnectSql.__init__(self)
+        # 初始化mongodb的连接
         self.conn_mongo = self.connectmongo()
         self.db = self.conn_mongo['autotest']
         self.runmanlog = self.logging.getLogger('RunMain')
+        # 初始化时间戳
         self.nowtime = time.strftime("%Y%m%d%H%M%S")
 
     def suiteall(self):
         caselist = []
         self.collection = self.db['testcase']
+        # 从testcase集合中
         for i in self.collection.find({}, {"casename": 1, "method": 1, "casefile": 1, "module": 1}):
             caselist.append(eval(i['method']+'("'+i['casename']+'")'))
         suite = unittest.TestSuite()
@@ -32,8 +35,7 @@ class RunTestMain(unittest.TestCase, ConnectSql):
         report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s.html'
                                      % self.nowtime)
         fp = open(report_repash, "wb")  # 保存报告文件
-        print(fp)
-        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告')
+        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime)
         runner.run(self.suiteall())  # 执行用例
         fp.close()
 

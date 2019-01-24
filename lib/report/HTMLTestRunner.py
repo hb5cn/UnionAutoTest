@@ -2,11 +2,10 @@
 # -*- coding: UTF-8 -*-
 import datetime
 import io
+import os
 import sys
 import importlib
-import time
 import unittest
-import re
 from xml.sax import saxutils
 importlib.reload(sys)
 """
@@ -488,7 +487,10 @@ a.popup_link:hover {
     <!--css div popup end-->
     </td>
     <td align='center'>
-    <a  %(hidde)s  href="%(image)s">picture_shot</a>
+    <!--<a  %(hidde)s  href="%(image)s">picture_shot</a>-->
+    <a href="%(image)s" target=“_blank”>
+        <img %(hidde)s src="%(image)s" width="320" height="180"/>
+    </a>
     </td>
 </tr>
 """  # variables: (tid, Class, style, desc, status)
@@ -497,7 +499,10 @@ a.popup_link:hover {
     <td class='%(style)s'><div class='testcase'>%(desc)s</div></td>
     <td colspan='6' align='center'>%(status)s</td>
     <td align='center'>
-    <a  %(hidde)s  href="%(image)s">picture_shot</a>
+    <!--<a  %(hidde)s  href="%(image)s">picture_shot</a>-->
+    <a href="%(image)s" target=“_blank”>
+        <img %(hidde)s href="%(image)s" src="%(image)s" width="320" height="180"/>
+    </a>
     </td>
 </tr>
 """  # variables: (tid, Class, style, desc, status)
@@ -629,10 +634,11 @@ class HTMLTestRunner(TemplateMixin):
     """
     """
 
-    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None, name=None):
+    def __init__(self, stream=sys.stdout, verbosity=1, title=None, description=None, name=None, screentime=None):
         self.stream = stream
         self.verbosity = verbosity
         self.stopTime = None
+        self.timestamp = screentime
         if title is None:
             self.title = self.DEFAULT_TITLE
         else:
@@ -813,23 +819,17 @@ class HTMLTestRunner(TemplateMixin):
             id=tid,
             output=saxutils.escape(str(uo) + str(ue))
         )
+        # print('2222222222222222222222222222222222222')
+        # print(str(saxutils.escape(str(ue))))
+        # if "Traceback" in str(saxutils.escape(str(ue))):
+        hidde_status = ''
+        pngfloder_path = os.path.join(os.path.dirname(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__)))), 'ScreenShots', 'backup_%s' % self.timestamp)
+        try:
+            image_url = os.path.join(pngfloder_path, '%s.png' % name)
+        except TypeError:
+            image_url = pngfloder_path
 
-        if "shot_picture_name" in str(saxutils.escape(str(ue))):
-            hidde_status = ''
-            pattern = re.compile(r'AssertionError:.*?shot_picture_name=(.*)', re.S)
-            shot_name = re.search(pattern, str(saxutils.escape(str(e))))
-            try:
-                image_url = "http://192.168.99.105/contractreport/screenshot/" + \
-                            time.strftime("%Y-%m-%d", time.localtime(time.time())) + "/" + shot_name.group(1) + ".png"
-                print(image_url)
-            except TypeError:
-                image_url = "http://192.168.99.105/contractreport/screenshot/" + \
-                            time.strftime("%Y-%m-%d", time.localtime(time.time()))
-                print(image_url)
-
-        else:
-            hidde_status = '''hidden="hidden"'''
-            image_url = ''
         row = tmpl % dict(
             tid=tid,
             Class=(n == 0 and 'hiddenRow' or 'none'),
