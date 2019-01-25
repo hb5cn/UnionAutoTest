@@ -14,8 +14,8 @@ class ConnectSql(AutoTestLog, Readresource):
         self.connectlog.addHandler(self.logscr)
 
     def connectmongo(self):
-        self.connectlog.info('MongodbIP is %s' % str(self.mongoip()))
-        self.connectlog.info('Mongodbprot is %s' % str(self.mongoport()))
+        # self.connectlog.info('MongodbIP is %s' % str(self.mongoip()))
+        # self.connectlog.info('Mongodbprot is %s' % str(self.mongoport()))
         # 返回MongoDB连接句柄
         conn = MongoClient(self.mongoip(), int(self.mongoport()))
         return conn
@@ -24,8 +24,3 @@ class ConnectSql(AutoTestLog, Readresource):
 if __name__ == '__main__':
     a = ConnectSql()
     b = a.connectmongo()
-    my_set = b.autotest.connectinfo
-    # for i in my_set.find({'_id': 0}):
-    #     print(i)
-    c = my_set.find_one({'_id': 0}, {"bossurl": 1, "_id": 0})
-    print(c['bossurl'])

@@ -1,7 +1,6 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
 from data.InitConnect import ConnectSql
-
 import traceback
 
 
@@ -12,15 +11,15 @@ class LoginData(ConnectSql):
         self.logindatalog.addHandler(self.logscr)
         self.conn_mongo = self.connectmongo()
         self.db = self.conn_mongo['autotest']
-        self.collection = self.db['connectinfo']
+        self.collection = self.db['sys_connectinfo']
         self.mongo_id = 0
+        self.collection_set = self.collection.find({'_id': self.mongo_id})
 
     def bossurl(self):
         # 查询要登录的boss的地址
         boss_url = ''
         try:
-            boss_url = self.collection.find_one({'_id': self.mongo_id}, {"bossurl": 1, "_id": self.mongo_id})['bossurl']
-            self.logindatalog.info('Boss url is : --->%s<---' % str(boss_url))
+            boss_url = self.collection_set[0]['bossurl']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -30,10 +29,7 @@ class LoginData(ConnectSql):
         # 查询要登录的运维的帐号
         operation_login_username = ''
         try:
-            operation_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"operation_login_username": 1,
-                                         "_id": self.mongo_id})['operation_login_username']
-            self.logindatalog.info('operation login username is : --->%s<---' % str(operation_login_username))
+            operation_login_username = self.collection_set[0]['operation_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -43,9 +39,7 @@ class LoginData(ConnectSql):
         # 查询要登录的销售的帐号1
         salesman_login_username = ''
         try:
-            salesman_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"salesman_login_username": 1, "_id": self.mongo_id})['salesman_login_username']
-            self.logindatalog.info('salesman login username is : --->%s<---' % str(salesman_login_username))
+            salesman_login_username = self.collection_set[0]['salesman_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -55,10 +49,7 @@ class LoginData(ConnectSql):
         # 查询要登录的销售的帐号2
         salesman_login_username2 = ''
         try:
-            salesman_login_username2 = self.collection.find_one(
-                {'_id': self.mongo_id}, {"salesman_login_username2": 1,
-                                         "_id": self.mongo_id})['salesman_login_username2']
-            self.logindatalog.info('salesman login username2 is : --->%s<---' % str(salesman_login_username2))
+            salesman_login_username2 = self.collection_set[0]['salesman_login_username2']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -68,10 +59,7 @@ class LoginData(ConnectSql):
         # 查询要登录的销售的帐号3
         salesman_login_username3 = ''
         try:
-            salesman_login_username3 = self.collection.find_one(
-                {'_id': self.mongo_id}, {"salesman_login_username3": 1,
-                                         "_id": self.mongo_id})['salesman_login_username3']
-            self.logindatalog.info('salesman login username3 is : --->%s<---' % str(salesman_login_username3))
+            salesman_login_username3 = self.collection_set[0]['salesman_login_username3']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -81,11 +69,7 @@ class LoginData(ConnectSql):
         # 查询要登录的号码管理员的帐号
         number_administrator_login_username = ''
         try:
-            number_administrator_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"number_administrator_login_username": 1,
-                                         "_id": self.mongo_id})['number_administrator_login_username']
-            self.logindatalog.info('number administrator login username is : --->%s<---' %
-                                   str(number_administrator_login_username))
+            number_administrator_login_username = self.collection_set[0]['number_administrator_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -95,9 +79,7 @@ class LoginData(ConnectSql):
         # 查询要登录的售前的帐号
         presale_login_username = ''
         try:
-            presale_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"presale_login_username": 1, "_id": self.mongo_id})['presale_login_username']
-            self.logindatalog.info('presale login username is : --->%s<---' % str(presale_login_username))
+            presale_login_username = self.collection_set[0]['presale_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -107,10 +89,7 @@ class LoginData(ConnectSql):
         # 查询要登录的回访的帐号
         return_visit_login_username = ''
         try:
-            return_visit_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"return_visit_login_username": 1,
-                                         "_id": self.mongo_id})['return_visit_login_username']
-            self.logindatalog.info('return visit login username is : --->%s<---' % str(return_visit_login_username))
+            return_visit_login_username = self.collection_set[0]['return_visit_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -120,9 +99,7 @@ class LoginData(ConnectSql):
         # 查询要登录的计费的帐号
         charging_login_username = ''
         try:
-            charging_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"charging_login_username": 1, "_id": self.mongo_id})['charging_login_username']
-            self.logindatalog.info('charging login username is : --->%s<---' % str(charging_login_username))
+            charging_login_username = self.collection_set[0]['charging_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -132,10 +109,7 @@ class LoginData(ConnectSql):
         # 查询要登录的续约的帐号
         renewcontract_login_username = ''
         try:
-            renewcontract_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"renewcontract_login_username": 1,
-                                         "_id": self.mongo_id})['renewcontract_login_username']
-            self.logindatalog.info('renewcontract login username is : --->%s<---' % str(renewcontract_login_username))
+            renewcontract_login_username = self.collection_set[0]['renewcontract_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -145,10 +119,7 @@ class LoginData(ConnectSql):
         # 查询要登录的产品审核的帐号
         productaudit_login_username = ''
         try:
-            productaudit_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"productaudit_login_username": 1,
-                                         "_id": self.mongo_id})['productaudit_login_username']
-            self.logindatalog.info('productaudit login username is : --->%s<---' % str(productaudit_login_username))
+            productaudit_login_username = self.collection_set[0]['productaudit_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -158,10 +129,7 @@ class LoginData(ConnectSql):
         # 查询要登录的产品开户的帐号
         productopening_login_username = ''
         try:
-            productopening_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"productopening_login_username": 1,
-                                         "_id": self.mongo_id})['productopening_login_username']
-            self.logindatalog.info('productopening login username is : --->%s<---' % str(productopening_login_username))
+            productopening_login_username = self.collection_set[0]['productopening_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -171,9 +139,7 @@ class LoginData(ConnectSql):
         # 查询要登录的财务开户的帐号
         finance_login_username = ''
         try:
-            finance_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"finance_login_username": 1, "_id": self.mongo_id})['finance_login_username']
-            self.logindatalog.info('finance login username is : --->%s<---' % str(finance_login_username))
+            finance_login_username = self.collection_set[0]['finance_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -183,9 +149,7 @@ class LoginData(ConnectSql):
         # 查询要登录的财务开户的帐号2
         finance_login_username2 = ''
         try:
-            finance_login_username2 = self.collection.find_one(
-                {'_id': self.mongo_id}, {"finance_login_username2": 1, "_id": self.mongo_id})['finance_login_username2']
-            self.logindatalog.info('finance login username2 is : --->%s<---' % str(finance_login_username2))
+            finance_login_username2 = self.collection_set[0]['finance_login_username2']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -195,9 +159,7 @@ class LoginData(ConnectSql):
         # 查询要登录的售后的帐号
         ftersale_login_username = ''
         try:
-            ftersale_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"ftersale_login_username": 1, "_id": self.mongo_id})['ftersale_login_username']
-            self.logindatalog.info('ftersale login username is : --->%s<---' % str(ftersale_login_username))
+            ftersale_login_username = self.collection_set[0]['ftersale_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -207,9 +169,7 @@ class LoginData(ConnectSql):
         # 查询要登录自服务的400帐号
         zfw400_login_username = ''
         try:
-            zfw400_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"zfw400_login_username": 1, "_id": self.mongo_id})['zfw400_login_username']
-            self.logindatalog.info('zfw400 login username is : --->%s<---' % str(zfw400_login_username))
+            zfw400_login_username = self.collection_set[0]['zfw400_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -219,9 +179,7 @@ class LoginData(ConnectSql):
         # 查询要登录自服务的400帐号2
         zfw400_login_username2 = ''
         try:
-            zfw400_login_username2 = self.collection.find_one(
-                {'_id': self.mongo_id}, {"zfw400_login_username2": 1, "_id": self.mongo_id})['zfw400_login_username2']
-            self.logindatalog.info('zfw400 login username2 is : --->%s<---' % str(zfw400_login_username2))
+            zfw400_login_username2 = self.collection_set[0]['zfw400_login_username2']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -231,9 +189,7 @@ class LoginData(ConnectSql):
         # 查询要登录自服务的400帐号3
         zfw400_login_username3 = ''
         try:
-            zfw400_login_username3 = self.collection.find_one(
-                {'_id': self.mongo_id}, {"zfw400_login_username3": 1, "_id": self.mongo_id})['zfw400_login_username3']
-            self.logindatalog.info('zfw400 login username3 is : --->%s<---' % str(zfw400_login_username3))
+            zfw400_login_username3 = self.collection_set[0]['zfw400_login_username3']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -243,9 +199,7 @@ class LoginData(ConnectSql):
         # 查询要登录自服务的LN帐号
         zfwln_login_username = ''
         try:
-            zfwln_login_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"zfwln_login_username": 1, "_id": self.mongo_id})['zfwln_login_username']
-            self.logindatalog.info('zfwln login username is : --->%s<---' % str(zfwln_login_username))
+            zfwln_login_username = self.collection_set[0]['zfwln_login_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -255,9 +209,7 @@ class LoginData(ConnectSql):
         # 查询要登录自服务的LN密码
         zfwln_login_password = ''
         try:
-            zfwln_login_password = self.collection.find_one(
-                {'_id': self.mongo_id}, {"zfwln_login_password": 1, "_id": self.mongo_id})['zfwln_login_password']
-            self.logindatalog.info('zfwln login password is : --->%s<---' % str(zfwln_login_password))
+            zfwln_login_password = self.collection_set[0]['zfwln_login_password']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -267,9 +219,7 @@ class LoginData(ConnectSql):
         # 查询要登录boss的密码
         login_password = ''
         try:
-            login_password = self.collection.find_one(
-                {'_id': self.mongo_id}, {"login_password": 1, "_id": self.mongo_id})['login_password']
-            self.logindatalog.info('login password is : --->%s<---' % str(login_password))
+            login_password = self.collection_set[0]['login_password']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -279,9 +229,7 @@ class LoginData(ConnectSql):
         # 查询要登录boss的验证码
         verification_code = ''
         try:
-            verification_code = self.collection.find_one(
-                {'_id': self.mongo_id}, {"verification_code": 1, "_id": self.mongo_id})['verification_code']
-            self.logindatalog.info('verification code is : --->%s<---' % str(verification_code))
+            verification_code = self.collection_set[0]['verification_code']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -291,9 +239,7 @@ class LoginData(ConnectSql):
         # 查询boss的数据库ip地址
         database_ip = ''
         try:
-            database_ip = self.collection.find_one(
-                {'_id': self.mongo_id}, {"database_ip": 1, "_id": self.mongo_id})['database_ip']
-            self.logindatalog.info('database ip is : --->%s<---' % str(database_ip))
+            database_ip = self.collection_set[0]['database_ip']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -303,9 +249,7 @@ class LoginData(ConnectSql):
         # 查询boss的数据库连接用户名
         database_username = ''
         try:
-            database_username = self.collection.find_one(
-                {'_id': self.mongo_id}, {"database_username": 1, "_id": self.mongo_id})['database_username']
-            self.logindatalog.info('database username is : --->%s<---' % str(database_username))
+            database_username = self.collection_set[0]['database_username']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -315,9 +259,7 @@ class LoginData(ConnectSql):
         # 查询boss的数据库连接密码
         database_password = ''
         try:
-            database_password = self.collection.find_one(
-                {'_id': self.mongo_id}, {"database_password": 1, "_id": self.mongo_id})['database_password']
-            self.logindatalog.info('database password is : --->%s<---' % str(database_password))
+            database_password = self.collection_set[0]['database_password']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()
@@ -327,9 +269,7 @@ class LoginData(ConnectSql):
         # 查询boss的数据库端口
         database_port = ''
         try:
-            database_port = self.collection.find_one(
-                {'_id': self.mongo_id}, {"database_port": 1, "_id": self.mongo_id})['database_port']
-            self.logindatalog.info('database port is : --->%s<---' % str(database_port))
+            database_port = self.collection_set[0]['database_port']
         except (KeyError, TypeError):
             self.logindatalog.error(traceback.format_exc())
             self.conn_mongo.close()

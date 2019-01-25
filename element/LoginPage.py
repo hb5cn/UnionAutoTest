@@ -15,3 +15,10 @@ class LoginPage(object):
         self.msgframe = '//div[contains(@class, "messager-body")]/div[2]'
         self.msgframe2 = '//div[contains(@class, "messager-body")]/div[1]'
         self.msgframebutton = '//div[contains(@class, "messager-body")]/div[last()]/a'
+        self.msgframe3 = '//div[text()="此用户正在登录使用中..是否强制注销？"]'
+        self.msgframe3button = '//div[text()="此用户正在登录使用中..是否强制注销？"]/following-sibling::div//span[text()="确定"]'
+        self.msgframe4 = '//div[text()="强制注销成功"]'
+        self.msgframe4button = '//div[text()="强制注销成功"]/following-sibling::div//span[text()="确定"]'
+        self.msgframe5 = '//div[text()="登录过于频繁，请稍后再登！"]'
+        self.msgframe5button = '//div[text()="登录过于频繁，请稍后再登！"]/following-sibling::div//span[text()="确定"]'
+

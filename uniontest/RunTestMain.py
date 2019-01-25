@@ -7,7 +7,7 @@ import unittest
 from pymongo import errors
 from lib.report import HTMLTestRunner
 from data.InitConnect import ConnectSql
-from uniontest.Public.LoginPage import TestLoginPage
+from uniontest.Public.TestLoginPage import TestLoginPage
 
 
 class RunTestMain(unittest.TestCase, ConnectSql):
@@ -22,7 +22,7 @@ class RunTestMain(unittest.TestCase, ConnectSql):
 
     def suiteall(self):
         caselist = []
-        self.collection = self.db['testcase']
+        self.collection = self.db['sys_testcase']
         # 从testcase集合中
         for i in self.collection.find({}, {"casename": 1, "method": 1, "casefile": 1, "module": 1}):
             caselist.append(eval(i['method']+'("'+i['casename']+'")'))
@@ -40,7 +40,7 @@ class RunTestMain(unittest.TestCase, ConnectSql):
         fp.close()
 
     def backupscreen(self, time_id=0):
-        self.collection = self.db['timestamp']
+        self.collection = self.db['sys_timestamp']
         try:
             self.collection.insert_one({"_id": time_id, "time": self.nowtime})
         except errors.DuplicateKeyError:

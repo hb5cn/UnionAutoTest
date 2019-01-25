@@ -22,7 +22,7 @@ class TestLoginPage(unittest.TestCase):
         # 实例化引用的类
         cls.login_page = LoginPage()
         # 创建日志句柄
-        cls.testloginlog = cls.login_page.logging.getLogger('TestLoginBoss')
+        cls.testloginlog = cls.login_page.logging.getLogger('LoginBoss')
         cls.testloginlog.addHandler(cls.login_page.logscr)
         global driver
         driver = cls.login_page.loginbrowser
@@ -34,12 +34,6 @@ class TestLoginPage(unittest.TestCase):
         # CloseBrowser.quitandclose(cls().login_page.loginbrowser, cls().login_page.topbarstatus,
         # cls().login_page.topbar,cls().login_page.exitsystem, cls().login_page.username)
         # cls().testloginlog.info('Logout now done')
-        # print(sys.exc_info())
-        # if sys.exc_info()[0]:
-        #     test_method_name = cls()._testMethodName
-        #     png_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
-        #                             'Screenshots', '%s.png' % test_method_name)
-        #     cls().login_page.loginbrowser.save_screenshot(png_path)
         cls().login_page.loginbrowser.quit()
 
     def test_normallogin(self):
@@ -49,7 +43,7 @@ class TestLoginPage(unittest.TestCase):
         """
         self.testloginlog.info('TestCase-->>用户正常登录')
         # 正常登录boss
-        self.login_page.login()
+        self.login_page.login(self.login_page.operation_login_username())
         # 退出登录boss
         CloseBrowser.quitboss(self.login_page.loginbrowser, self.login_page.topbarstatus, self.login_page.topbar,
                               self.login_page.exitsystem, self.login_page.username)
@@ -134,6 +128,10 @@ class TestLoginPage(unittest.TestCase):
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe).text
         unittest.TestCase.assertEqual(self, msg, '用户名或密码错误，请重新输入。')
         self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframebutton).click()
+        # 清除输入框内容
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.username).clear()
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.password).clear()
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.verificationcode).clear()
 
     def test_wrongpassword(self):
         """
@@ -155,6 +153,10 @@ class TestLoginPage(unittest.TestCase):
         msg = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframe2).text
         unittest.TestCase.assertEqual(self, msg, '密码不正确')
         self.login_page.loginbrowser.find_element_by_xpath(self.login_page.msgframebutton).click()
+        # 清除输入框内容
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.username).clear()
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.password).clear()
+        self.login_page.loginbrowser.find_element_by_xpath(self.login_page.verificationcode).clear()
 
     def test_required(self):
         """
@@ -205,7 +207,3 @@ if __name__ == '__main__':
     suite.addTest(TestLoginPage('test_required'))
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
-#     print(result)
-    # a = TestLoginPage()
-    # a.test_normallogin()
-    # a.tearownclass()
