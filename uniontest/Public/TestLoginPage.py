@@ -31,9 +31,6 @@ class TestLoginPage(unittest.TestCase):
     def tearDownClass(cls):
         cls().testloginlog.info('close browser now')
         # 关闭浏览器
-        # CloseBrowser.quitandclose(cls().login_page.loginbrowser, cls().login_page.topbarstatus,
-        # cls().login_page.topbar,cls().login_page.exitsystem, cls().login_page.username)
-        # cls().testloginlog.info('Logout now done')
         cls().login_page.loginbrowser.quit()
 
     def test_normallogin(self):

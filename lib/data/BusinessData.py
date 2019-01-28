@@ -37,7 +37,7 @@ class BusinessData(ConnectSql):
                 self.collection2.update_one({"_id": 0}, {'$set': {"num400": str(number)}})
                 break
             else:
-                number += 1
+                number = int(number) + 1
         return number
 
 

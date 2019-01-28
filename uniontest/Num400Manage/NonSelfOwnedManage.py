@@ -24,7 +24,7 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
         cls.NonSelf_page = LoginPage()
         cls.NonSelf_page.login(cls.NonSelf_page.number_administrator_login_username())
         # 创建日志句柄
-        cls.testloginlog = cls.NonSelf_page.logging.getLogger('LoginBoss')
+        cls.testloginlog = cls.NonSelf_page.logging.getLogger('NonSelfTestCase')
         cls.testloginlog.addHandler(cls.NonSelf_page.logscr)
         global driver
         driver = cls.NonSelf_page.loginbrowser
@@ -32,11 +32,11 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
     @classmethod
     def tearDownClass(cls):
         cls().testloginlog.info('close browser now')
+        cls().NonSelf_page.loginbrowser.switch_to.default_content()
         # 关闭浏览器
         CloseBrowser.quitandclose(cls().NonSelf_page.loginbrowser, cls().NonSelf_page.topbarstatus,
                                   cls().NonSelf_page.topbar, cls().NonSelf_page.exitsystem, cls().NonSelf_page.username)
         cls().testloginlog.info('Logout now done')
-        # cls().NonSelf_page.loginbrowser.quit()
 
     def normaladdednumber(self):
         Method_Nonself().addnum400(self.NonSelf_page.loginbrowser)

@@ -15,7 +15,7 @@ class CloseBrowser(object):
         js_script = 'return %s' % topbarstatus_path
         # 获取上方状态栏的展开状态
         topbar_status = driver.execute_script(js_script)
-        if 'None' == str(topbar_status):
+        if 'none' == str(topbar_status).lower():
             # 如果状态是none，则点击上方状态栏
             driver.find_element_by_xpath(topbar).click()
             while True:
@@ -29,7 +29,7 @@ class CloseBrowser(object):
             # 判断是否退出正常
             WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, verificationelement)))
             driver.quit()
-        elif 'block' == str(topbar_status):
+        elif 'block' == str(topbar_status).lower():
             # 如果状态是block，则点击退出
             driver.find_element_by_xpath(exitsystem_path).click()
             # 判断是否退出正常
@@ -41,7 +41,7 @@ class CloseBrowser(object):
         js_script = 'return %s' % topbarstatus_path
         # 获取上方状态栏的展开状态
         topbar_status = driver.execute_script(js_script)
-        if 'None' == str(topbar_status):
+        if 'none' == str(topbar_status).lower():
             # 如果状态是none，则点击上方状态栏
             driver.find_element_by_xpath(topbar).click()
             while True:
@@ -54,7 +54,7 @@ class CloseBrowser(object):
             driver.find_element_by_xpath(exitsystem_path).click()
             # 判断是否退出正常
             WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, verificationelement)))
-        elif 'block' == str(topbar_status):
+        elif 'block' == str(topbar_status).lower():
             # 如果状态是block，则点击退出
             driver.find_element_by_xpath(exitsystem_path).click()
             # 判断是否退出正常
