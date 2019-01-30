@@ -40,6 +40,7 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         self.loginlog.info('Login verificationcode is :    %s' % self.verification_code())
         self.loginbrowser.find_element_by_xpath(self.verificationcode).send_keys(self.verification_code())
         # 点击登录
+        self.loginlog.info('cilck login button')
         self.loginbrowser.find_element_by_xpath(self.confirm).click()
         try:
             self.loginbrowser.find_element_by_xpath(self.msgframe3)
@@ -67,6 +68,15 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         # 点击两次刷新按钮
         self.loginbrowser.find_element_by_xpath(self.refresh).click()
         self.loginbrowser.find_element_by_xpath(self.refresh).click()
+        # 点击上方状态栏，让其收起来
+        WebDriverWait(self.loginbrowser, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.topbar_up)))
+        self.loginbrowser.find_element_by_xpath(self.topbar_up).click()
+        while True:
+            px = self.loginbrowser.execute_script('return $(\'#topDiv\').parent().css(\'top\')')
+            if '-100px' == px:
+                break
+            else:
+                time.sleep(0.5)
 
 
 # if __name__ == '__main__':

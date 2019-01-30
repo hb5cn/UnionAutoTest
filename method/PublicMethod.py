@@ -5,6 +5,7 @@ from element.HomePage import HomePage
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class PublicMethod(HomePage):
@@ -58,18 +59,49 @@ class PublicMethod(HomePage):
     @staticmethod
     def istablecontent(driver, tablepath='//div[@class="datagrid-view2"]', title='', text=''):
         """
-        Determine whether there are relevant items in the table
+        确定表中是否有相关项，有就返回True，没有就返回False，后面会跟上行号列号以及该节点的xpath。
         """
         # 获取该内容列的号码
         col_last_path = '%s/div/div/table/tbody/tr/td[last()]/div/span[1]' % tablepath
-        col_last_str = driver.find_element_by_xpath(col_last_path).text
+        col_last_str = driver.find_element_by_xpath(col_last_path).get_attribute('textContent')
         col_num = 1
         while True:
             xpath = '%s/div/div/table/tbody/tr/td[%d]/div/span[1]' % (tablepath, col_num)
-            now_str = driver.find_element_by_xpath(xpath).text
+            now_str = driver.find_element_by_xpath(xpath).get_attribute('textContent')
             if now_str == title:
                 break
             if now_str == col_last_str:
-                break
+                if title == col_last_str:
+                    break
+                else:
+                    raise AssertionError('There is no %s in the col' % title)
+            else:
+                col_num += 1
 
-        row_last_path = ''
+        row_last_path = '%s/div[2]/table/tbody/tr[last()]/td[%d]/div' % (tablepath, col_num)
+        row_last_str = driver.find_element_by_xpath(row_last_path).get_attribute('textContent')
+        row_num = 1
+        while True:
+            xpath = '%s/div[2]/table/tbody/tr[%d]/td[%d]/div' % (tablepath, row_num, col_num)
+            now_str = driver.find_element_by_xpath(xpath).get_attribute('textContent')
+            if now_str == text:
+                break
+            if now_str == row_last_str:
+                if text == row_last_str:
+                    break
+                else:
+                    return False, row_num, col_num
+            else:
+                col_num += 1
+        return True, row_num, col_num, xpath
+
+    def rightclicktablecontent(self, driver, tablepath='//div[@class="datagrid-view2"]', title='', text=''):
+        """
+        先确定表中是否有相关项，然后右击该项。
+        """
+        isintab, row_num, col_num, xpath = self.istablecontent(driver, tablepath, title, text)
+        if isintab is False:
+            raise AssertionError('There is no content in table')
+        else:
+            ActionChains(driver).context_click(driver.find_element_by_xpath(xpath)).perform()
+

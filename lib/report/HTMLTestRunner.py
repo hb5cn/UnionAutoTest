@@ -27,7 +27,7 @@ For more customization options, instantiates a HTMLTestRunner object.
 HTMLTestRunner is a counterpart to unittest's TextTestRunner. E.g.
 
     # output to a file
-    fp = file('my_report.html', 'wb')
+    fp = file('my_report.html', 'w')
     runner = HTMLTestRunner.HTMLTestRunner(
                 stream=fp,
                 title='My unit test',
@@ -115,10 +115,10 @@ class OutputRedirector(object):
         self.fp = fp
 
     def write(self, s):
-        self.fp.write(s)
+        self.fp.write(s.encode())
 
     def writelines(self, lines):
-        self.fp.writelines(lines)
+        self.fp.writelines(lines.encode())
 
     def flush(self):
         self.fp.flush()
@@ -719,7 +719,7 @@ class HTMLTestRunner(TemplateMixin):
             report=report,
             ending=ending,
         )
-        self.stream.write(output.encode('utf8'))
+        self.stream.write(output.encode('UTF-8'))
         if test is None:
             print(test)
 

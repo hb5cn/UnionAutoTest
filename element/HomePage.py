@@ -8,6 +8,7 @@ class HomePage(object):
         self.topbarstatus = "$('#topDiv').css('display')"
         self.exitsystem = '//a[@onclick="logout();"]'
         self.topbar = '//a[@class="layout-button-down"]'
+        self.topbar_up = '//a[@class="layout-button-up"]'
 
     @staticmethod
     def parentmenu(menuname):

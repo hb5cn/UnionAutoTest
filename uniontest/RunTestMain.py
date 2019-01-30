@@ -8,6 +8,7 @@ from pymongo import errors
 from lib.report import HTMLTestRunner
 from data.InitConnect import ConnectSql
 from uniontest.Public.TestLoginPage import TestLoginPage
+from uniontest.Num400Manage.NonSelfOwnedManage import NonSelfOwnedManage
 
 
 class RunTestMain(unittest.TestCase, ConnectSql):
@@ -35,7 +36,7 @@ class RunTestMain(unittest.TestCase, ConnectSql):
         report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s.html'
                                      % self.nowtime)
         fp = open(report_repash, "wb")  # 保存报告文件
-        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime)
+        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime, verbosity=2)
         runner.run(self.suiteall())  # 执行用例
         fp.close()
 

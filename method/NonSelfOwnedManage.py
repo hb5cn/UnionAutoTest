@@ -1,5 +1,6 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
+import unittest
 from element.NonSelfOwnedManagePage import NonSelfOwnedManagePage
 from lib.data.BusinessData import BusinessData
 from method.PublicMethod import PublicMethod
@@ -58,14 +59,14 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         # 进入非自属号码管理页面
         self.nonselflog.info('into menu')
         self.entermenu(driver, '400号码管理', '非自属号码管理')
-        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.nonselfiframe)))
+        WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, self.nonselfiframe)))
         driver.switch_to_frame(driver.find_element_by_xpath(self.nonselfiframe))
-        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.btn_addnum)))
+        WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, self.btn_addnum)))
 
         # 进入添加号码页面
         self.nonselflog.info('into add number')
         driver.find_element_by_xpath(self.btn_addnum).click()
-        WebDriverWait(driver, 5, 0.5).until(ec.presence_of_element_located((By.XPATH, self.frame_business_number)))
+        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.frame_business_number)))
 
         # 输入业务号码
         self.nonselflog.info('input number')
@@ -134,7 +135,7 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
 
         # 选择是否代理商专属
         self.nonselflog.info('select agentexclusive')
-        self.comboboxsetvalue(driver, 'oewagnet', self.agentexclusive)
+        driver.find_element_by_xpath(self.frame_agentexclusive).send_keys(self.agentexclusive)
 
         # 选择号码类别
         self.nonselflog.info('select numbercategory')
@@ -153,6 +154,11 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         # 检查是否添加成功
         driver.find_element_by_xpath(self.search_business_number).send_keys(biz_num)
         driver.find_element_by_xpath(self.search_search_btn).click()
+        WebDriverWait(driver, 3, 0.5).until_not(ec.presence_of_element_located((By.XPATH, self.tab_wait_text)))
+        self.nonselflog.info('Determine whether the number was created successfully')
+        result, row, col, xpath = self.istablecontent(driver, title='业务号码', text=str(biz_num))
+        unittest.TestCase().assertEqual(str(result), 'True')
+        self.nonselflog.info('Created num in the row %d, col %d.' % (row, col))
 
 
 if __name__ == '__main__':
