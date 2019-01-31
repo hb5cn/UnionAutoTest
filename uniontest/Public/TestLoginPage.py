@@ -21,6 +21,7 @@ class TestLoginPage(unittest.TestCase):
     def setUpClass(cls):
         # 实例化引用的类
         cls.login_page = LoginPage()
+        cls.login_close_boss = CloseBrowser()
         # 创建日志句柄
         cls.testloginlog = cls.login_page.logging.getLogger('LoginBoss')
         cls.testloginlog.addHandler(cls.login_page.logscr)
@@ -42,8 +43,7 @@ class TestLoginPage(unittest.TestCase):
         # 正常登录boss
         self.login_page.login(self.login_page.operation_login_username())
         # 退出登录boss
-        CloseBrowser.quitboss(self.login_page.loginbrowser, self.login_page.topbarstatus, self.login_page.topbar,
-                              self.login_page.exitsystem, self.login_page.username)
+        self.login_close_boss.quitboss(self.login_page.loginbrowser)
 
     def test_enterlogin(self):
         """
@@ -72,8 +72,7 @@ class TestLoginPage(unittest.TestCase):
             (By.XPATH, self.login_page.refresh)))
         # 退出登录boss
         self.testloginlog.info('quit boss')
-        CloseBrowser.quitboss(self.login_page.loginbrowser, self.login_page.topbarstatus, self.login_page.topbar,
-                              self.login_page.exitsystem, self.login_page.username)
+        self.login_close_boss.quitboss(self.login_page.loginbrowser)
 
     def test_reset(self):
         """

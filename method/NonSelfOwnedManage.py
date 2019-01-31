@@ -7,6 +7,7 @@ from method.PublicMethod import PublicMethod
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+import selenium.common.exceptions
 
 
 class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
@@ -53,9 +54,9 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         self.numbercategory = collection_str[0]['numbercategory']
         self.ispromotionalnumber = collection_str[0]['ispromotionalnumber']
 
-    def addnum400(self, driver):
+    def addnum400(self, driver, mongoid=0):
         biz_num = self.num400exists()
-        self.getnuminfo(0)
+        self.getnuminfo(mongoid)
         # 进入非自属号码管理页面
         self.nonselflog.info('into menu')
         self.entermenu(driver, '400号码管理', '非自属号码管理')
@@ -105,8 +106,8 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         self.nonselflog.info('select preoccupiedperson')
         if self.preoccupiedperson:
             driver.find_element_by_xpath(self.frame_preoccupied_person).click()
-            driver.find_element_by_xpath(self.frame_employee_selection).send_keys(self.preoccupiedperson)
-            driver.find_element_by_xpath(self.frame_employee_selection_search).click()
+            WebDriverWait(driver, 5, 0.5).until(ec.presence_of_element_located((
+                By.XPATH, '//span[text()="%s"]' % self.preoccupiedperson)))
             driver.find_element_by_xpath('//span[text()="%s"]' % self.preoccupiedperson).click()
             driver.find_element_by_xpath(self.frame_employee_selection_frambutton).click()
             driver.find_element_by_xpath(self.frame_employee_selection_close).click()
@@ -127,15 +128,16 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         self.nonselflog.info('select reservations')
         if self.reservations:
             driver.find_element_by_xpath(self.frame_preoccupied_person).click()
-            driver.find_element_by_xpath(self.frame_employee_selection).send_keys(self.preoccupiedperson)
-            driver.find_element_by_xpath(self.frame_employee_selection_search).click()
             driver.find_element_by_xpath('//span[text()="%s"]' % self.reservations).click()
             driver.find_element_by_xpath(self.frame_employee_selection_frambutton).click()
             driver.find_element_by_xpath(self.frame_employee_selection_close).click()
 
         # 选择是否代理商专属
         self.nonselflog.info('select agentexclusive')
-        driver.find_element_by_xpath(self.frame_agentexclusive).send_keys(self.agentexclusive)
+        try:
+            driver.find_element_by_xpath(self.frame_agentexclusive).send_keys(self.agentexclusive)
+        except selenium.common.exceptions.InvalidElementStateException:
+            pass
 
         # 选择号码类别
         self.nonselflog.info('select numbercategory')
@@ -154,7 +156,7 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         # 检查是否添加成功
         driver.find_element_by_xpath(self.search_business_number).send_keys(biz_num)
         driver.find_element_by_xpath(self.search_search_btn).click()
-        WebDriverWait(driver, 3, 0.5).until_not(ec.presence_of_element_located((By.XPATH, self.tab_wait_text)))
+        WebDriverWait(driver, 10, 0.5).until_not(ec.presence_of_element_located((By.XPATH, self.tab_wait_text)))
         self.nonselflog.info('Determine whether the number was created successfully')
         result, row, col, xpath = self.istablecontent(driver, title='业务号码', text=str(biz_num))
         unittest.TestCase().assertEqual(str(result), 'True')

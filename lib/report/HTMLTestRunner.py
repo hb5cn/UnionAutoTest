@@ -415,10 +415,10 @@ a.popup_link:hover {
     #
 
     REPORT_TMPL = """
-<p id='show_detail_line'>Show
-<a href='javascript:showCase(0)'>Summary</a>
-<a href='javascript:showCase(1)'>Failed</a>
-<a href='javascript:showCase(2)'>All</a>
+<p id='show_detail_line'>展开：
+<a href='javascript:showCase(0)'>总结</a>
+<a href='javascript:showCase(1)'>只看失败</a>
+<a href='javascript:showCase(2)'>查看全部</a>
 </p>
 <table id='result_table'>
 <colgroup>
@@ -430,18 +430,18 @@ a.popup_link:hover {
 <col align='right' />
 </colgroup>
 <tr id='header_row'>
-    <td>Test Group/Test case</td>
-    <td>Count</td>
-    <td>Pass</td>
-    <td>Fail</td>
-    <td>Error</td>
-    <td>Skip</td>
-    <td>View</td>
-    <td>Screenshot</td>
+    <td>测试用例</td>
+    <td>总数</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>跳过</td>
+    <td>查看详细</td>
+    <td>截图</td>
 </tr>
 %(test_list)s
 <tr id='total_row'>
-    <td>Total</td>
+    <td>总计</td>
     <td>%(count)s</td>
     <td>%(Pass)s</td>
     <td>%(fail)s</td>
@@ -462,7 +462,7 @@ a.popup_link:hover {
     <td>%(fail)s</td>
     <td>%(error)s</td>
     <td>%(skip)s</td>
-    <td><a href="javascript:showClassDetail('%(cid)s',%(count)s)">Detail</a></td>
+    <td><a href="javascript:showClassDetail('%(cid)s',%(count)s)">详细</a></td>
     <td> </td>
 </tr>
 """  # variables: (style, desc, count, Pass, fail,skip, error, cid)
@@ -687,21 +687,21 @@ class HTMLTestRunner(TemplateMixin):
         duration = str(self.stopTime - self.startTime)
         status = []
         if result.success_count:
-            status.append('Pass %s' % result.success_count)
+            status.append('通过： %s' % result.success_count)
         if result.failure_count:
-            status.append('Failure %s' % result.failure_count)
+            status.append('失败： %s' % result.failure_count)
         if result.skipped_count:
-            status.append('Skip %s' % result.skipped_count)
+            status.append('跳过： %s' % result.skipped_count)
         if result.error_count:
-            status.append('Error %s' % result.error_count)
+            status.append('错误： %s' % result.error_count)
         if status:
             status = ' '.join(status)
         else:
             status = 'none'
         return [
-            ('Start Time', start_time),
-            ('Duration', duration),
-            ('Status', status),
+            ('开始时间', start_time),
+            ('持续时间', duration),
+            ('结果', status),
         ]
 
     def generatereport(self, test, result):

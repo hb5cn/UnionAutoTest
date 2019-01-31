@@ -1,10 +1,12 @@
 # !/usr/local/python
 # -*- coding: UTF-8 -*-
 import time
+import traceback
+import selenium.common.exceptions
 from element.HomePage import HomePage
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.action_chains import ActionChains
 
 
@@ -24,6 +26,7 @@ class PublicMethod(HomePage):
         if 'none' == status:
             driver.find_element_by_xpath(self.parentmenu(parentmenuname)).click()
         driver.find_element_by_xpath(self.submenu(parentmenuname, subname)).click()
+        time.sleep(3)
 
     @staticmethod
     def comboboxvalue(driver, option):
@@ -79,7 +82,10 @@ class PublicMethod(HomePage):
                 col_num += 1
 
         row_last_path = '%s/div[2]/table/tbody/tr[last()]/td[%d]/div' % (tablepath, col_num)
-        row_last_str = driver.find_element_by_xpath(row_last_path).get_attribute('textContent')
+        try:
+            row_last_str = driver.find_element_by_xpath(row_last_path).get_attribute('textContent')
+        except selenium.common.exceptions.NoSuchElementException:
+            raise traceback.format_exc()
         row_num = 1
         while True:
             xpath = '%s/div[2]/table/tbody/tr[%d]/td[%d]/div' % (tablepath, row_num, col_num)
@@ -105,3 +111,9 @@ class PublicMethod(HomePage):
         else:
             ActionChains(driver).context_click(driver.find_element_by_xpath(xpath)).perform()
 
+    @staticmethod
+    def get_loginusername(driver):
+        name_xpath = '//div[@class="top"]/span'
+        name = driver.find_element_by_xpath(name_xpath).get_attribute('textContent')
+        name = str(name).split(':')[1]
+        return name

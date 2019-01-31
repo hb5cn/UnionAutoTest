@@ -18,11 +18,12 @@ class BusinessData(ConnectSql):
         mysql_passwd = self.collection_set[0]['database_password']
         mysql_port = self.collection_set[0]['database_port']
         # 连接mysql数据库
-        conn = MySQLdb.connect(host=mysql_host, user=mysql_user, passwd=mysql_passwd, port=int(mysql_port),
-                               charset='utf8')
-        self.cur = conn.cursor()
+        self.conn = MySQLdb.connect(host=mysql_host, user=mysql_user, passwd=mysql_passwd, port=int(mysql_port),
+                                    charset='utf8')
+        self.cur = ''
 
     def num400exists(self):
+        self.cur = self.conn.cursor()
         try:
             number = self.collection2.find_one({"_id": 0}, {"num400": 1})['num400']
         except TypeError:
@@ -33,6 +34,7 @@ class BusinessData(ConnectSql):
             sql = "SELECT * FROM xtboss.sys_numadmin WHERE number400 LIKE '%" + str(number) + "%';"
             self.cur.execute(sql)
             result = self.cur.fetchall()
+            self.conn.commit()
             if () == result:
                 self.collection2.update_one({"_id": 0}, {'$set': {"num400": str(number)}})
                 break
