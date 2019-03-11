@@ -4,6 +4,7 @@ import os
 import time
 import shutil
 import unittest
+import threading
 from pymongo import errors
 from lib.report import HTMLTestRunner
 from data.InitConnect import ConnectSql
@@ -31,6 +32,26 @@ class RunTestMain(unittest.TestCase, ConnectSql):
         # 测试套添加内容
         suite.addTests(caselist)
         return suite
+
+    def threadtest(self):
+        caselist = []
+        report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s.html'
+                                     % self.nowtime)
+        fp = open(report_repash, "ab")  # 保存报告文件
+        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime, verbosity=2)
+        for j in range(2, 4):
+            self.collection = self.db['sys_testcase_temp%s' % j]
+            # 从testcase集合中
+            for i in self.collection.find({}, {"casename": 1, "method": 1, "casefile": 1, "module": 1}):
+                caselist.append(eval(i['method'] + '("' + i['casename'] + '")'))
+            suite = unittest.TestSuite()
+            # 测试套添加内容
+            suite.addTests(caselist)
+            print(suite)
+            t = threading.Thread(target=runner.run, args=(suite,))
+            t.start()
+            caselist = []
+        fp.close()
 
     def main(self):
         report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s.html'
@@ -60,5 +81,6 @@ class RunTestMain(unittest.TestCase, ConnectSql):
 
 if __name__ == '__main__':
     a = RunTestMain()
-    a.main()
+    # a.main()
+    a.threadtest()
     a.backupscreen()
