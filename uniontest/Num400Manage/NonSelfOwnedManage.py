@@ -380,9 +380,114 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
                                                                                 self.nonself_method.tab_wait_text)))
         self.istablecontent(driver, title='是否促销', text='否')
 
+    def test_agentnumpredefined(self):
+        self.NonSelf_page.mainlog.info('TestCase-->>创建代理商专属号码仅可选择可预订状态')
+        # 进入非自属号码管理页面
+        self.NonSelf_page.mainlog.info('into menu : 400号码管理 -> 非自属号码管理')
+        self.entermenu(driver, '400号码管理', '非自属号码管理')
+        WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH,
+                                                                             self.nonself_method.nonselfiframe)))
+        driver.switch_to_frame(driver.find_element_by_xpath(self.nonself_method.nonselfiframe))
+        WebDriverWait(driver, 20, 0.5).until(ec.presence_of_element_located((By.XPATH, self.nonself_method.btn_addnum)))
+
+        # 进入添加号码页面
+        self.mainlog.info('into add number page')
+        driver.find_element_by_xpath(self.btn_addnum).click()
+        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.frame_business_number)))
+
+        # 选择开户流程中状态
+        self.mainlog.info('select accounts status : 开户流程中')
+        self.comboboxsetvalue(driver, 'statu', '开户流程中')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择保留状态
+        self.mainlog.info('select accounts status : 保留')
+        self.comboboxsetvalue(driver, 'statu', '保留')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择释放状态
+        self.mainlog.info('select accounts status : 释放')
+        self.comboboxsetvalue(driver, 'statu', '释放')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择冻结状态
+        self.mainlog.info('select accounts status : 冻结')
+        self.comboboxsetvalue(driver, 'statu', '冻结')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择已开户状态
+        self.mainlog.info('select accounts status : 已开户')
+        self.comboboxsetvalue(driver, 'statu', '已开户')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择锁定状态
+        self.mainlog.info('select accounts status : 锁定')
+        self.comboboxsetvalue(driver, 'statu', '锁定')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择待审核状态
+        self.mainlog.info('select accounts status : 待审核')
+        self.comboboxsetvalue(driver, 'statu', '待审核')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择已预定状态
+        self.mainlog.info('select accounts status : 已预定')
+        self.comboboxsetvalue(driver, 'statu', '已预定')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'disabled')
+
+        # 选择可预定状态
+        self.mainlog.info('select accounts status : 可预定')
+        self.comboboxsetvalue(driver, 'statu', '可预定')
+
+        # 判断代理商按钮是否可选
+        self.mainlog.info('judgment agent button is : disabled')
+        agentbutton_js = 'return $(\'input[name="sne.sysNumadmin.resever4"]\').attr(\'disabled\')'
+        status = driver.execute_script(agentbutton_js)
+        unittest.TestCase().assertEqual(str(status).lower(), 'None')
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(NonSelfOwnedManage('test_normaladdednumber'))
+    suite.addTest(NonSelfOwnedManage('test_agentnumpredefined'))
     runner = unittest.TextTestRunner()
     result = runner.run(suite)
