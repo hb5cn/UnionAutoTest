@@ -7,8 +7,6 @@ import traceback
 class LoginData(ConnectSql):
     def __init__(self):
         ConnectSql.__init__(self)
-        self.logindatalog = self.logging.getLogger('LoginData')
-        self.logindatalog.addHandler(self.logscr)
         self.conn_mongo = self.connectmongo()
         self.db = self.conn_mongo['autotest']
         self.collection = self.db['sys_connectinfo']
@@ -21,7 +19,7 @@ class LoginData(ConnectSql):
         try:
             boss_url = self.collection_set[0]['bossurl']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return boss_url
 
@@ -31,7 +29,7 @@ class LoginData(ConnectSql):
         try:
             operation_login_username = self.collection_set[0]['operation_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return operation_login_username
 
@@ -41,7 +39,7 @@ class LoginData(ConnectSql):
         try:
             salesman_login_username = self.collection_set[0]['salesman_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username
 
@@ -51,7 +49,7 @@ class LoginData(ConnectSql):
         try:
             salesman_login_username2 = self.collection_set[0]['salesman_login_username2']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username2
 
@@ -61,7 +59,7 @@ class LoginData(ConnectSql):
         try:
             salesman_login_username3 = self.collection_set[0]['salesman_login_username3']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return salesman_login_username3
 
@@ -71,7 +69,7 @@ class LoginData(ConnectSql):
         try:
             number_administrator_login_username = self.collection_set[0]['number_administrator_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return number_administrator_login_username
 
@@ -81,7 +79,7 @@ class LoginData(ConnectSql):
         try:
             presale_login_username = self.collection_set[0]['presale_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return presale_login_username
 
@@ -91,7 +89,7 @@ class LoginData(ConnectSql):
         try:
             return_visit_login_username = self.collection_set[0]['return_visit_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return return_visit_login_username
 
@@ -101,7 +99,7 @@ class LoginData(ConnectSql):
         try:
             charging_login_username = self.collection_set[0]['charging_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return charging_login_username
 
@@ -111,7 +109,7 @@ class LoginData(ConnectSql):
         try:
             renewcontract_login_username = self.collection_set[0]['renewcontract_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return renewcontract_login_username
 
@@ -121,7 +119,7 @@ class LoginData(ConnectSql):
         try:
             productaudit_login_username = self.collection_set[0]['productaudit_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return productaudit_login_username
 
@@ -131,7 +129,7 @@ class LoginData(ConnectSql):
         try:
             productopening_login_username = self.collection_set[0]['productopening_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return productopening_login_username
 
@@ -141,7 +139,7 @@ class LoginData(ConnectSql):
         try:
             finance_login_username = self.collection_set[0]['finance_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return finance_login_username
 
@@ -151,7 +149,7 @@ class LoginData(ConnectSql):
         try:
             finance_login_username2 = self.collection_set[0]['finance_login_username2']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return finance_login_username2
 
@@ -161,7 +159,7 @@ class LoginData(ConnectSql):
         try:
             ftersale_login_username = self.collection_set[0]['ftersale_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return ftersale_login_username
 
@@ -171,7 +169,7 @@ class LoginData(ConnectSql):
         try:
             zfw400_login_username = self.collection_set[0]['zfw400_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username)
 
@@ -181,7 +179,7 @@ class LoginData(ConnectSql):
         try:
             zfw400_login_username2 = self.collection_set[0]['zfw400_login_username2']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username2)
 
@@ -191,7 +189,7 @@ class LoginData(ConnectSql):
         try:
             zfw400_login_username3 = self.collection_set[0]['zfw400_login_username3']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfw400_login_username3)
 
@@ -201,7 +199,7 @@ class LoginData(ConnectSql):
         try:
             zfwln_login_username = self.collection_set[0]['zfwln_login_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfwln_login_username)
 
@@ -211,7 +209,7 @@ class LoginData(ConnectSql):
         try:
             zfwln_login_password = self.collection_set[0]['zfwln_login_password']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(zfwln_login_password)
 
@@ -221,7 +219,7 @@ class LoginData(ConnectSql):
         try:
             login_password = self.collection_set[0]['login_password']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(login_password)
 
@@ -231,7 +229,7 @@ class LoginData(ConnectSql):
         try:
             verification_code = self.collection_set[0]['verification_code']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(verification_code)
 
@@ -241,7 +239,7 @@ class LoginData(ConnectSql):
         try:
             database_ip = self.collection_set[0]['database_ip']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_ip)
 
@@ -251,7 +249,7 @@ class LoginData(ConnectSql):
         try:
             database_username = self.collection_set[0]['database_username']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_username)
 
@@ -261,7 +259,7 @@ class LoginData(ConnectSql):
         try:
             database_password = self.collection_set[0]['database_password']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_password)
 
@@ -271,7 +269,7 @@ class LoginData(ConnectSql):
         try:
             database_port = self.collection_set[0]['database_port']
         except (KeyError, TypeError):
-            self.logindatalog.error(traceback.format_exc())
+            self.mainlog.error(traceback.format_exc())
             self.conn_mongo.close()
         return str(database_port)
 

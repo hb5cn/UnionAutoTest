@@ -21,4 +21,3 @@ class LoginPage(object):
         self.msgframe4button = '//div[text()="强制注销成功"]/following-sibling::div//span[text()="确定"]'
         self.msgframe5 = '//div[text()="登录过于频繁，请稍后再登！"]'
         self.msgframe5button = '//div[text()="登录过于频繁，请稍后再登！"]/following-sibling::div//span[text()="确定"]'
-

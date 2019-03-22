@@ -9,6 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 
 class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
@@ -21,9 +22,6 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         # 登录网站并且最大化
         self.loginbrowser.get(LoginData.bossurl(self))
         self.loginbrowser.maximize_window()
-        # 获取日志句柄
-        self.loginlog = self.logging.getLogger('LoginBoss')
-        self.loginlog.addHandler(self.logscr)
 
     def login(self, username):
         """
@@ -31,38 +29,51 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         :return:
         """
         # 用户名输入内容
-        self.loginlog.info('Login username is :    %s' % username)
+        self.mainlog.info('Login username is :    %s' % username)
         self.loginbrowser.find_element_by_xpath(self.username).send_keys(username)
         # 密码输入内容
-        self.loginlog.info('Login password is :    %s' % self.login_password())
+        self.mainlog.info('Login password is :    %s' % self.login_password())
         self.loginbrowser.find_element_by_xpath(self.password).send_keys(self.login_password())
         # 验证码输入内容
-        self.loginlog.info('Login verificationcode is :    %s' % self.verification_code())
+        self.mainlog.info('Login verificationcode is :    %s' % self.verification_code())
         self.loginbrowser.find_element_by_xpath(self.verificationcode).send_keys(self.verification_code())
         # 点击登录
-        self.loginlog.info('cilck login button')
+        self.mainlog.info('cilck Login button')
         self.loginbrowser.find_element_by_xpath(self.confirm).click()
+
+        # 登录频繁注销
         try:
+            try:
+                WebDriverWait(self.loginbrowser, 5, 0.5).until(
+                    ec.presence_of_element_located((By.XPATH, self.msgframe5)))
+            except TimeoutException:
+                pass
+            self.loginbrowser.find_element_by_xpath(self.msgframe5)
+            self.loginbrowser.find_element_by_xpath(self.msgframe5button).click()
+            self.mainlog.info('Frequent login')
+            time.sleep(2)
+            self.loginbrowser.find_element_by_xpath(self.confirm).click()
+        except NoSuchElementException:
+            pass
+
+        # 正在使用中注销
+        try:
+            try:
+                WebDriverWait(self.loginbrowser, 5, 0.5).until(
+                    ec.presence_of_element_located((By.XPATH, self.msgframe3)))
+            except TimeoutException:
+                pass
             self.loginbrowser.find_element_by_xpath(self.msgframe3)
             self.loginbrowser.find_element_by_xpath(self.msgframe3button).click()
             self.loginbrowser.find_element_by_xpath(self.msgframe4)
             self.loginbrowser.find_element_by_xpath(self.msgframe4button).click()
-            self.loginlog.info('Duplicate logon')
+            self.mainlog.info('Duplicate logon')
             time.sleep(2)
             self.loginbrowser.find_element_by_xpath(self.confirm).click()
         except NoSuchElementException:
             pass
 
-        try:
-            self.loginbrowser.find_element_by_xpath(self.msgframe5)
-            self.loginbrowser.find_element_by_xpath(self.msgframe5button).click()
-            self.loginlog.info('Frequent login')
-            time.sleep(2)
-            self.loginbrowser.find_element_by_xpath(self.confirm).click()
-        except NoSuchElementException:
-            pass
-
-        self.loginlog.info('Begin Login Boss')
+        self.mainlog.info('Begin Login Boss')
         # 等待刷新按钮出现
         WebDriverWait(self.loginbrowser, 60, 0.5).until(ec.presence_of_element_located((By.XPATH, self.refresh)))
         # 点击两次刷新按钮
