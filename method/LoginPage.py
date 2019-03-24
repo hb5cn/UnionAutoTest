@@ -44,7 +44,7 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         # 登录频繁注销
         try:
             try:
-                WebDriverWait(self.loginbrowser, 5, 0.5).until(
+                WebDriverWait(self.loginbrowser, 2, 0.5).until(
                     ec.presence_of_element_located((By.XPATH, self.msgframe5)))
             except TimeoutException:
                 pass
@@ -59,7 +59,7 @@ class LoginPage(OpenBrowser, ElementLogin, ElementHome, LoginData):
         # 正在使用中注销
         try:
             try:
-                WebDriverWait(self.loginbrowser, 5, 0.5).until(
+                WebDriverWait(self.loginbrowser, 2, 0.5).until(
                     ec.presence_of_element_located((By.XPATH, self.msgframe3)))
             except TimeoutException:
                 pass

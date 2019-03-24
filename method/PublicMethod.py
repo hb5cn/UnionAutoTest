@@ -31,6 +31,7 @@ class PublicMethod(HomePage):
     @staticmethod
     def comboboxvalue(driver, option):
         # 判断页面中要选择的选项是否加载完成
+        time_n = 0
         while True:
             js_existence = 'return $(\'div[class*="combobox-item"]:contains("%s")\').length>0' % option
             existence = driver.execute_script(js_existence)
@@ -38,6 +39,9 @@ class PublicMethod(HomePage):
                 break
             else:
                 time.sleep(0.5)
+                time_n += 1
+                if 120 == int(time_n):
+                    raise Exception('There is no option: %s' % str(option))
         # 返回要选择的选项的value值
         js_str = 'return $(\'div[class*="combobox-item"]:contains("%s")\').attr(\'value\')' % option
         value = driver.execute_script(js_str)
