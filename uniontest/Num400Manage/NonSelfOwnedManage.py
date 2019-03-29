@@ -393,7 +393,8 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
         # 进入添加号码页面
         self.nonself_page.mainlog.info('into add number page')
         driver.find_element_by_xpath(self.nonself_method.btn_addnum).click()
-        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located((By.XPATH, self.nonself_method.frame_business_number)))
+        WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located(
+            (By.XPATH, self.nonself_method.frame_business_number)))
 
         # 选择开户流程中状态
         self.nonself_page.mainlog.info('select accounts status : 开户流程中')
@@ -485,9 +486,64 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
         status = driver.execute_script(agentbutton_js)
         unittest.TestCase().assertEqual(str(status).lower(), 'none')
 
+    def test_transferagent(self):
+        self.nonself_page.mainlog.info('TestCase-->>号码所属转给代理商')
+
+        # 创建可预订的代理商专属号码
+        self.nonself_method.addnum400(driver, 4)
+        add_number = self.nonself_method.collection2.find_one({"_id": 0}, {"num400": 1})['num400']
+        numinfo_collection = self.nonself_method.db['biz_nonselfownedmanage']
+        numinfo_collection.update_one({"_id": 4}, {'$set': {"businessnumber": str(add_number)}})
+        driver.switch_to.default_content()
+
+        # 创建可预订的非代理商号码
+        self.nonself_method.addnum400(driver, 5)
+        add_number = self.nonself_method.collection2.find_one({"_id": 0}, {"num400": 1})['num400']
+        numinfo_collection = self.nonself_method.db['biz_nonselfownedmanage']
+        numinfo_collection.update_one({"_id": 5}, {'$set': {"businessnumber": str(add_number)}})
+        driver.switch_to.default_content()
+
+        # 创建非可预订的非代理商号码
+        # self.nonself_method.addnum400(driver, 6)
+        # add_number = self.nonself_method.collection2.find_one({"_id": 0}, {"num400": 1})['num400']
+        # numinfo_collection = self.nonself_method.db['biz_nonselfownedmanage']
+        # numinfo_collection.update_one({"_id": 6}, {'$set': {"businessnumber": str(add_number)}})
+        # driver.switch_to.default_content()
+
+        # 查询已经创建的代理商号码
+        driver.switch_to_frame(driver.find_element_by_xpath(self.nonself_method.nonselfiframe))
+        agent_number = numinfo_collection.find_one({"_id": 5}, {"num400": 1})['num400']
+        self.nonself_page.mainlog.info('search reservable agent number : %s' % agent_number)
+        driver.find_element_by_xpath(self.nonself_method.search_business_number).clear()
+        driver.find_element_by_xpath(self.nonself_method.search_business_number).send_keys(agent_number)
+        driver.find_element_by_xpath(self.nonself_method.search_search_btn).click()
+        WebDriverWait(driver, 3, 0.5).until_not(ec.presence_of_element_located((By.XPATH,
+                                                                                self.nonself_method.tab_wait_text)))
+        self.nonself_method.clicktablecontent(driver, title='业务号码', text=str(agent_number))
+        self.nonself_page.mainlog.info('click transfer to agent button')
+        driver.find_element_by_xpath(self.nonself_method.btn_transfer_to_agent).click()
+        WebDriverWait(driver, 5, 0.5).until(ec.presence_of_element_located((By.XPATH,
+                                                                            self.nonself_method.msg_promotion4)))
+        driver.find_element_by_xpath(self.nonself_method.msg_promotion4_btn).click()
+
+        # 查询可预订的非代理商号码
+        notagent_number = self.nonself_method.collection2.find_one({"_id": 0}, {"num400": 1})['num400']
+        self.nonself_page.mainlog.info('search reservable agent number : %s' % agent_number)
+        driver.find_element_by_xpath(self.nonself_method.search_business_number).clear()
+        driver.find_element_by_xpath(self.nonself_method.search_business_number).send_keys(agent_number)
+        driver.find_element_by_xpath(self.nonself_method.search_search_btn).click()
+        WebDriverWait(driver, 3, 0.5).until_not(ec.presence_of_element_located((By.XPATH,
+                                                                                self.nonself_method.tab_wait_text)))
+        self.nonself_method.clicktablecontent(driver, title='业务号码', text=str(agent_number))
+        self.nonself_page.mainlog.info('click transfer to agent button')
+        driver.find_element_by_xpath(self.nonself_method.btn_transfer_to_agent).click()
+        WebDriverWait(driver, 5, 0.5).until(ec.presence_of_element_located((By.XPATH,
+                                                                            self.nonself_method.msg_promotion4)))
+        driver.find_element_by_xpath(self.nonself_method.msg_promotion4_btn).click()
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(NonSelfOwnedManage('test_agentnumpredefined'))
+    suite.addTest(NonSelfOwnedManage('test_transferagent'))
     runner = unittest.TextTestRunner()
     result = runner.run(suite)

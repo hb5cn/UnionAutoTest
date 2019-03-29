@@ -50,3 +50,5 @@ class NonSelfOwnedManagePage(object):
         self.msg_promotion2_btn = '//div[text()="设置成功！"]/following-sibling::div//span[text()="确定"]'
         self.msg_promotion3 = '//div[contains(text(),"将被设置为非促销号，是否设置")]'
         self.msg_promotion3_btn = '//div[contains(text(),"将被设置为非促销号，是否设置")]/following-sibling::div//span[text()="确定"]'
+        self.msg_promotion4 = '//div[contains(text(),"请选择非代理商号码")]'
+        self.msg_promotion4_btn = '//div[contains(text(),"请选择非代理商号码")]/following-sibling::div//span[text()="确定"]'

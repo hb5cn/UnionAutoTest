@@ -133,7 +133,9 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
         # 选择是否代理商专属
         self.mainlog.info('select agentexclusive : %s' % self.agentexclusive)
         try:
-            driver.find_element_by_xpath(self.frame_agentexclusive).send_keys(self.agentexclusive)
+            # driver.find_element_by_xpath(self.frame_agentexclusive).clear()
+            # driver.find_element_by_xpath(self.frame_agentexclusive).send_keys(self.agentexclusive)
+            self.comboboxsetvalue(driver, 'oewagnet', self.agentexclusive)
         except selenium.common.exceptions.InvalidElementStateException:
             pass
 

@@ -115,6 +115,16 @@ class PublicMethod(HomePage):
         else:
             ActionChains(driver).context_click(driver.find_element_by_xpath(xpath)).perform()
 
+    def clicktablecontent(self, driver, tablepath='//div[@class="datagrid-view2"]', title='', text=''):
+        """
+        先确定表中是否有相关项，然后单击击该项。
+        """
+        isintab, row_num, col_num, xpath = self.istablecontent(driver, tablepath, title, text)
+        if isintab is False:
+            raise AssertionError('There is no content in table')
+        else:
+            ActionChains(driver).click(driver.find_element_by_xpath(xpath)).perform()
+
     @staticmethod
     def get_loginusername(driver):
         name_xpath = '//div[@class="top"]/span'
