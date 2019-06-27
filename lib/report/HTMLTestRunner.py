@@ -172,10 +172,10 @@ class TemplateMixin(object):
     """
 
     STATUS = {
-        0: 'pass',
-        1: 'fail',
-        2: 'error',
-        3: 'skip'
+        0: '通过',
+        1: '失败',
+        2: '异常',
+        3: '跳过'
     }
 
     DEFAULT_TITLE = 'Unit Test Report'

@@ -60,19 +60,24 @@ class RunTestMain(unittest.TestCase, ConnectSql):
     def test(self, suite, threadname):
         report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s_%s.html'
                                      % (self.nowtime, threadname))
-        fp = open(report_repash, "wb")  # 保存报告文件
+        # 保存报告文件
+        fp = open(report_repash, "wb")
         runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime, verbosity=2)
+        # noinspection PyBroadException
         try:
-            runner.run(suite)  # 执行用例
+            # 执行用例
+            runner.run(suite)
         except Exception:
             self.mainlog.error(traceback.format_exc())
 
     def main(self):
         report_repash = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'report', '%s.html'
                                      % self.nowtime)
-        fp = open(report_repash, "wb")  # 保存报告文件
+        # 保存报告文件
+        fp = open(report_repash, "wb")
         runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title='测试报告', screentime=self.nowtime, verbosity=2)
-        runner.run(self.suiteall())  # 执行用例
+        # 执行用例
+        runner.run(self.suiteall())
         fp.close()
 
     def backupscreen(self, time_id=0):
