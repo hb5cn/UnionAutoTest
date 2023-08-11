@@ -544,6 +544,6 @@ class NonSelfOwnedManage(unittest.TestCase, Method_Nonself):
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(NonSelfOwnedManage('test_normaladdednumber'))
+    suite.addTest(NonSelfOwnedManage('test_rightoperationopenandopening'))
     runner = unittest.TextTestRunner()
     result = runner.run(suite)

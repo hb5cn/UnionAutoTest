@@ -128,6 +128,8 @@ class NonSelfOwnedManage(BusinessData, PublicMethod, NonSelfOwnedManagePage):
             driver.find_element_by_xpath(self.frame_preoccupied_person).click()
             driver.find_element_by_xpath('//span[text()="%s"]' % self.reservations).click()
             driver.find_element_by_xpath(self.frame_employee_selection_frambutton).click()
+            WebDriverWait(driver, 10, 0.5).until(ec.presence_of_element_located(
+                (By.XPATH, self.frame_employee_selection_frambutton)))
             driver.find_element_by_xpath(self.frame_employee_selection_close).click()
 
         # 选择是否代理商专属

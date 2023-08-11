@@ -240,9 +240,13 @@ class TestLoginPage(unittest.TestCase):
         tips = self.login_page.loginbrowser.find_element_by_xpath(self.login_page.tips).text
         unittest.TestCase.assertEqual(self, tips, '该输入项为必输项')
 
+    def login1(self):
+        while True:
+            self.test_normallogin()
+
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest(TestLoginPage('test_normallogin'))
+    suite.addTest(TestLoginPage('login1'))
     runner = unittest.TextTestRunner()
     result = runner.run(suite)

@@ -100,6 +100,6 @@ class RunTestMain(unittest.TestCase, ConnectSql):
 
 if __name__ == '__main__':
     a = RunTestMain()
-    # a.main()
+    a.main()
     # a.backupscreen()
-    a.threadtest()
+    # a.threadtest()

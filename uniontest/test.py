@@ -16,12 +16,17 @@ class FirstTest(unittest.TestCase):
     def setUpClass(cls):
         cls.browser = webdriver.Chrome()
 
-    def testone(self):
-        self.browser.get('https://www.baidu.com')
-        self.browser.maximize_window()
-        browsertitle = self.browser.title
-        self.assertEqual(browsertitle, '百度一下，你就知道')
-        self.browser.quit()
+    def test_normallogin(self):
+        """
+        用户正常登录
+        :return:
+        """
+        self.login_page.mainlog.info('TestCase-->>用户正常登录')
+        # 正常登录boss
+        self.login_page.login(self.login_page.operation_login_username())
+        # 退出登录boss
+        self.login_page.mainlog.info('quit boss')
+        self.login_close_boss.quitboss(self.login_page.loginbrowser)
 
     @staticmethod
     def suite():
